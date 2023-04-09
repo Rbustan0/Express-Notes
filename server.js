@@ -4,6 +4,8 @@ const path = require('path');
 const fs = require('fs');
 
 // Potential use of uuid (to be determined later)
+const uuid = require('./helpers/uuid');
+
 
 // PORT
 const PORT = 3001;
@@ -45,6 +47,8 @@ app.get('/api/notes', (req, res) => {
     // Log our request to the terminal
     console.info(`${req.method} request received to get notes`);
 });
+
+// POST request for notes
 
 
 // Event listener designated for the bottom of the code:
