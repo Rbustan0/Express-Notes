@@ -36,6 +36,12 @@ app.get('*', (req, res) => {
 });
 
 
+
+// API NOTES
+
+
+
+
 // GET request for notes
 app.get('/api/notes', (req, res) => {
     // Read the contents of the db.json file
@@ -49,10 +55,55 @@ app.get('/api/notes', (req, res) => {
 });
 
 // POST request for notes
+app.post('/api/notes', (req, res) => {
+
+    // Following similar structure to folder 20
+    console.info(`${req.method} request received to add a note`);
+
+    // Destructuring assignment of variables for new object.
+    const { title, text } = req.body;
+
+    if (title && text) {
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error in reading file');
+            } else {
+                // I think its more efficient to include this snippit inside
+                const notes = JSON.parse(data);
+
+                const newNote = {
+                    id: uuid(),
+                    title,
+                    text,
+                };
+
+                // Will show user that their post response was a success
+                const response = {
+                    status: 'success',
+                    body: newNote,
+                };
+
+                // push notes to array
+                notes.push(newNote);
+                // appends if written inside of the read method
+                fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (writeErr) => {
+                    if (writeErr) {
+                        console.error(writeErr);
+                    } else {
+                        console.info('Successfully added note!');
+                        res.json(response);
+                    }
+                });
+            }
+        });
+    } else {
+        res.status(400).send('Please include a title and text for the note.');
+    }
+});
 
 
 // Event listener designated for the bottom of the code:
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT}`)
 );
-
