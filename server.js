@@ -8,7 +8,7 @@ const uuid = require('./helpers/uuid');
 
 
 // PORT
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 
 // App instance of express
@@ -31,9 +31,6 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
 
 
 
@@ -45,8 +42,8 @@ app.get('*', (req, res) => {
 // GET request for notes
 app.get('/api/notes', (req, res) => {
     // Read the contents of the db.json file
-    const notes = JSON.parse(fs.readFileSync(path.join(__dirname, '/db/db.json')));
-
+    const notes = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
+    console.log(notes);
     // Send the notes as a JSON response
     res.json(notes);
 
@@ -101,6 +98,12 @@ app.post('/api/notes', (req, res) => {
         res.status(400).send('Please include a title and text for the note.');
     }
 });
+
+// Needs to be at the bottom to avoid it conflicting with other GETs and POSTs in the code.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
 
 
 // Event listener designated for the bottom of the code:
