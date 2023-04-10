@@ -99,6 +99,35 @@ app.post('/api/notes', (req, res) => {
     }
 });
 
+// DELETE Route, going to attempt to use filter rather than the select in the courses example.
+app.delete('/api/notes/:id', (req, res) => {
+    
+    // saving myself the hassle of typing this out multiple times
+    const noteId = req.params.id;
+
+    console.info(`${req.method} request received to delete note with id ${noteId}`);
+
+    // Read the contents of the db.json file just as before
+    const notes = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
+
+    // Filter out the note with the specified ID
+    const filteredNotes = notes.filter(note => note.id !== noteId);
+
+    // Check if any notes were deleted
+    if (notes.length !== filteredNotes.length) {
+        // Write the updated notes to the db.json file
+        fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(filteredNotes, null, 2));
+        console.info(`Note with id ${noteId} was deleted.`);
+        res.sendStatus(204);
+    } else {
+        // If no notes were deleted, send a 404 response
+        console.warn(`Note with id ${noteId} was not found.`);
+        res.sendStatus(404);
+    }
+});
+
+
+
 // Needs to be at the bottom to avoid it conflicting with other GETs and POSTs in the code.
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
