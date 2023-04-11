@@ -81,6 +81,29 @@ node.js, Express.js, Nodemon.js, Insomnia
 
 ## Deployment
 
+<br/>
 
-![Link to URL]()
+[Heroku Link](https://dashboard.heroku.com/apps/express-note-taker22)
 
+<br/>
+
+[Deployed Site](https://express-note-taker22.herokuapp.com/)
+
+<br/>
+<br/>
+
+### Images:
+
+* Here are screenshots of the sites functionality:
+
+![Alt text](images/Screenshot%202023-04-10%20170526.jpg)
+![Alt text](images/1.jpg)
+![Alt text](images/2.jpg)
+
+<br/>
+
+* Here is a screenshot of delete function working
+
+<br/>
+
+![Alt text](images/3.jpg)
